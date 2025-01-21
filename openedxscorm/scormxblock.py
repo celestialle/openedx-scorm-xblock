@@ -190,7 +190,7 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
 
     def initialize_student_info(self):
         user_id = self.get_current_user_attr("edx-platform.user_id")
-        username = self.get_current_user_attr("edx-platform.username")
+        username = self.get_current_user().full_name
         
         self.scorm_data["cmi.core.student_id"] = user_id
         self.scorm_data["cmi.learner_id"] = user_id
@@ -491,7 +491,7 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
         if name in ["cmi.core.student_id", "cmi.learner_id"]:
             return {"value": self.get_current_user_attr("edx-platform.user_id")}
         if name in ["cmi.core.student_name", "cmi.learner_name"]:
-            return {"value": self.get_current_user_attr("edx-platform.username")}
+            return {"value": self.get_current_user().full_name}
         return {"value": self.scorm_data.get(name, "")}
 
     @XBlock.json_handler
